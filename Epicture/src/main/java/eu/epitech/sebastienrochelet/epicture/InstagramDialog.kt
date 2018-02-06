@@ -1,53 +1,55 @@
 package eu.epitech.sebastienrochelet.epicture
 
-import android.support.test.espresso.web.model.Atoms.getTitle
-import android.webkit.WebView
-import android.graphics.Bitmap
-import android.webkit.WebViewClient
-import android.graphics.Typeface
-import android.widget.TextView
-import android.view.Window.FEATURE_NO_TITLE
-import android.webkit.CookieSyncManager
-import android.widget.FrameLayout
-import android.opengl.ETC1.getHeight
-import android.opengl.ETC1.getWidth
-import android.view.Display
-import android.widget.LinearLayout
+import android.app.Dialog
 import android.app.ProgressDialog
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
-
-
+import android.view.Window
+import android.webkit.CookieManager
+import android.webkit.CookieSyncManager
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.TextView
 
 /**
  * Created by nathan on 06/02/2018.
  */
-class InstagramDialog(context: Context, private val mUrl: String, private val mListener: OAuthDialogListener) : Dialog(context) {
+
+class InstagramDialog(context: Context, private val mUrl: String,
+                      private val mListener: OAuthDialogListener) : Dialog(context) {
     private var mSpinner: ProgressDialog? = null
     private var mWebView: WebView? = null
     private var mContent: LinearLayout? = null
     private var mTitle: TextView? = null
-    protected fun onCreate(savedInstanceState: Bundle) {
+
+    override fun onCreate(savedInstanceState: Bundle) {
         super.onCreate(savedInstanceState)
-        mSpinner = ProgressDialog(getContext())
+        mSpinner = ProgressDialog(context)
         mSpinner!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         mSpinner!!.setMessage("Loading...")
-        mContent = LinearLayout(getContext())
+        mContent = LinearLayout(context)
         mContent!!.orientation = LinearLayout.VERTICAL
         setUpTitle()
         setUpWebView()
-        val display = getWindow().getWindowManager().getDefaultDisplay()
-        val scale = getContext().getResources().getDisplayMetrics().density
-        val dimensions = if (display.getWidth() < display.getHeight()) DIMENSIONS_PORTRAIT else DIMENSIONS_LANDSCAPE
-        addContentView(mContent, FrameLayout.LayoutParams((dimensions[0] * scale + 0.5f).toInt(), (dimensions[1] * scale + 0.5f).toInt()))
-        CookieSyncManager.createInstance(getContext())
+        val display = window!!.windowManager.defaultDisplay
+        val scale = context.resources.displayMetrics.density
+        val dimensions = if (display.width < display.height) DIMENSIONS_PORTRAIT else DIMENSIONS_LANDSCAPE
+        addContentView(mContent!!, FrameLayout.LayoutParams((dimensions[0] * scale + 0.5f).toInt(), (dimensions[1] * scale + 0.5f).toInt()))
+        CookieSyncManager.createInstance(context)
         val cookieManager = CookieManager.getInstance()
         cookieManager.removeAllCookie()
     }
 
     private fun setUpTitle() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        mTitle = TextView(getContext())
+        mTitle = TextView(context)
         mTitle!!.text = "Instagram"
         mTitle!!.setTextColor(Color.WHITE)
         mTitle!!.typeface = Typeface.DEFAULT_BOLD
@@ -57,7 +59,7 @@ class InstagramDialog(context: Context, private val mUrl: String, private val mL
     }
 
     private fun setUpWebView() {
-        mWebView = WebView(getContext())
+        mWebView = WebView(context)
         mWebView!!.isVerticalScrollBarEnabled = false
         mWebView!!.isHorizontalScrollBarEnabled = false
         mWebView!!.webViewClient = OAuthWebViewClient()
@@ -105,6 +107,7 @@ class InstagramDialog(context: Context, private val mUrl: String, private val mL
 
     interface OAuthDialogListener {
         fun onComplete(accessToken: String)
+
         fun onError(error: String)
     }
 
