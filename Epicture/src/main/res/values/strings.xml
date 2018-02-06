@@ -6,4 +6,12 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="com_auth0_client_id">WFBKikHYZzWzgzgVxQOiHzSKMA8Zeh8W</string>
+    <string name="com_auth0_domain">epicture-lulu.eu.auth0.com</string>
+
+    <string name="client_id">32d542cf38924096abe68faa04b1fb46</string>
+    <string name="client_secret">00520943142942649ccacc9b8d6dc7ff</string>
+    <string name="callback_url">https://www.instagram.com/nathan2.sitbon/</string>
+
 </resources>
