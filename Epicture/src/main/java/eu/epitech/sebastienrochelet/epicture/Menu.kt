@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.app_bar_menu.*
 
@@ -24,10 +23,7 @@ class Menu : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-        println("LEEEEEEL")
-        println(nav_view.headerCount)
-        println(nav_view.getHeaderView(0))
-        nav_view.getHeaderView(0).findViewById<TextView>(R.id.textView).text = "lel"
+        nav_view.setCheckedItem(R.id.nav_home)
     }
 
     override fun onBackPressed() {
@@ -57,22 +53,22 @@ class Menu : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
+            R.id.nav_home -> {
                 // Handle the camera action
             }
-            R.id.nav_gallery -> {
+            R.id.nav_feed -> {
 
             }
-            R.id.nav_slideshow -> {
+            R.id.nav_search -> {
 
             }
-            R.id.nav_manage -> {
+            R.id.nav_upload -> {
 
             }
-            R.id.nav_share -> {
+            R.id.nav_favorites -> {
 
             }
-            R.id.nav_send -> {
+            R.id.nav_filters -> {
 
             }
         }
