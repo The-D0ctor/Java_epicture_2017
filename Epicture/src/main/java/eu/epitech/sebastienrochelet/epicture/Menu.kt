@@ -2,6 +2,7 @@ package eu.epitech.sebastienrochelet.epicture
 
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -24,6 +25,8 @@ class Menu : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
 
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_home)
+        val homeFragment = HomeFragment()
+        supportFragmentManager.beginTransaction().add(R.id.fragment_container, homeFragment).commit()
     }
 
     override fun onBackPressed() {
@@ -54,26 +57,40 @@ class Menu : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_home -> {
-                // Handle the camera action
+                val homeFragment = HomeFragment()
+                replaceFragment(homeFragment)
             }
             R.id.nav_feed -> {
-
+                val feedFragment = FeedFragment()
+                replaceFragment(feedFragment)
             }
             R.id.nav_search -> {
-
+                val searchFragment = SearchFragment()
+                replaceFragment(searchFragment)
             }
             R.id.nav_upload -> {
-
+                val uploadFragment = UploadFragment()
+                replaceFragment(uploadFragment)
             }
             R.id.nav_favorites -> {
-
+                val favoritesFragment = FavoritesFragment()
+                replaceFragment(favoritesFragment)
             }
             R.id.nav_filters -> {
-
+                val filtersFragment = FiltersFragment()
+                replaceFragment(filtersFragment)
             }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun replaceFragment(newFragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+
+        transaction.replace(R.id.fragment_container, newFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 }
