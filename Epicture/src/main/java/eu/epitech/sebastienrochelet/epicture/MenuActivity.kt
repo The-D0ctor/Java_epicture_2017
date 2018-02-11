@@ -8,10 +8,22 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
+import com.bumptech.glide.Glide
+import eu.epitech.sebastienrochelet.epicture.apiManagment.UserModel
+import eu.epitech.sebastienrochelet.epicture.apiManagment.ApiManager
+import io.oauth.OAuthData
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.app_bar_menu.*
 
-class Menu : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    private lateinit var homeFragment: HomeFragment
+    private var lastPostFragment = LastPostFragment()
+    private val searchFragment = SearchFragment()
+    private val favoritesFragment = FavoritesFragment()
+    private val filtersFragment = FiltersFragment()
+    private lateinit var data: OAuthData
+    private var user: UserModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,18 +35,29 @@ class Menu : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
+        data = intent.getParcelableExtra("data")
+        println(data.token)
+        ApiManager.getUser(data, {
+            this.user = it
+            println(user)
+            if (user != null) {
+                val header = nav_view.getHeaderView(0)
+                header.findViewById<TextView>(R.id.full_name).text = user!!.fullName
+                header.findViewById<TextView>(R.id.username).text = user!!.username
+                Glide.with(this).load(user!!.profilPicture).into(header.findViewById(R.id.profile_image))
+                homeFragment = HomeFragment.newInstance(user!!)
+                supportFragmentManager.beginTransaction().add(R.id.fragment_container, homeFragment).commit()
+            }
+        })
+
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_home)
-        val homeFragment = HomeFragment()
-        supportFragmentManager.beginTransaction().add(R.id.fragment_container, homeFragment).commit()
     }
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
-        } /*else {
-            super.onBackPressed()
-        }*/
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -57,27 +80,18 @@ class Menu : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_home -> {
-                val homeFragment = HomeFragment()
                 replaceFragment(homeFragment)
             }
             R.id.nav_feed -> {
-                val feedFragment = FeedFragment()
-                replaceFragment(feedFragment)
+                replaceFragment(lastPostFragment)
             }
             R.id.nav_search -> {
-                val searchFragment = SearchFragment()
                 replaceFragment(searchFragment)
             }
-            R.id.nav_upload -> {
-                val uploadFragment = UploadFragment()
-                replaceFragment(uploadFragment)
-            }
             R.id.nav_favorites -> {
-                val favoritesFragment = FavoritesFragment()
                 replaceFragment(favoritesFragment)
             }
             R.id.nav_filters -> {
-                val filtersFragment = FiltersFragment()
                 replaceFragment(filtersFragment)
             }
         }

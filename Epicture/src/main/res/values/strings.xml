@@ -13,4 +13,10 @@
     <string name="favorites">Favorites</string>
     <string name="filters">Filters</string>
     <string name="public_key">5ltFRmotOj9nRps2k5RLXkf54wA</string>
+    <string name="sign_in_with_instagram">Sign in with Instagram</string>
+    <string name="last_post">Last Post</string>
+    <string name="search_post">Search Post</string>
+    <string name="full_name">Full Name</string>
+    <string name="username">Username</string>
+    <string name="profile_image_home">profile_image_home</string>
 </resources>
