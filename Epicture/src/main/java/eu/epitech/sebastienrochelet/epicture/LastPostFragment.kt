@@ -10,10 +10,10 @@ import android.view.ViewGroup
 
 /**
  * A simple [Fragment] subclass.
- * Use the [UploadFragment.newInstance] factory method to
+ * Use the [LastPostFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class UploadFragment : Fragment() {
+class LastPostFragment : Fragment() {
 
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
@@ -30,7 +30,7 @@ class UploadFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_upload, container, false)
+        return inflater.inflate(R.layout.fragment_last_post, container, false)
     }
 
     companion object {
@@ -45,11 +45,11 @@ class UploadFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment UploadFragment.
+         * @return A new instance of fragment LastPostFragment.
          */
         // TODO: Rename and change types and number of parameters
-        fun newInstance(param1: String, param2: String): UploadFragment {
-            val fragment = UploadFragment()
+        fun newInstance(param1: String, param2: String): LastPostFragment {
+            val fragment = LastPostFragment()
             val args = Bundle()
             args.putString(ARG_PARAM1, param1)
             args.putString(ARG_PARAM2, param2)

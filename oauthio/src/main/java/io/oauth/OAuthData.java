@@ -1,10 +1,14 @@
 package io.oauth;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.oauth.http.OAuthJSONCallback;
@@ -13,7 +17,7 @@ import io.oauth.http.OAuthJSONRequest;
 /**
  *	Class with all the information of the authentication
  */
-public class OAuthData {
+public class OAuthData implements Parcelable {
 	
 	private OAuth _oauth;
 
@@ -30,7 +34,51 @@ public class OAuthData {
 	{
 		_oauth = o;
 	}
-	
+
+	protected OAuthData(Parcel in) {
+		provider = in.readString();
+		state = in.readString();
+		token = in.readString();
+		secret = in.readString();
+		status = in.readString();
+		expires_in = in.readString();
+		error = in.readString();
+        try {
+            request = new JSONObject(in.readString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(provider);
+		dest.writeString(state);
+		dest.writeString(token);
+		dest.writeString(secret);
+		dest.writeString(status);
+		dest.writeString(expires_in);
+		dest.writeString(error);
+        dest.writeString(request.toString());
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	public static final Creator<OAuthData> CREATOR = new Creator<OAuthData>() {
+		@Override
+		public OAuthData createFromParcel(Parcel in) {
+			return new OAuthData(in);
+		}
+
+		@Override
+		public OAuthData[] newArray(int size) {
+			return new OAuthData[size];
+		}
+	};
+
 	/**
 	 * Inject the authorization informations to an http request by providing an
 	 * OAuthRequest implementation. If the authorization method of the provider is OAuth 1,

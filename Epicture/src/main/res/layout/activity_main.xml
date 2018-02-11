@@ -6,21 +6,19 @@
     android:layout_height="match_parent"
     tools:context="eu.epitech.sebastienrochelet.epicture.MainActivity">
 
-    <Button
+    <ImageButton
         android:id="@+id/signupButton"
-        android:layout_width="365dp"
-        android:layout_height="60dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="226dp"
-        android:layout_marginEnd="9dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="225dp"
-        android:background="@drawable/instagram_button_log_in"
+        style="@android:style/Widget.Holo.Light.ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="244dp"
+        android:layout_marginTop="243dp"
+        android:contentDescription="@string/sign_in_with_instagram"
         android:onClick="signUp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/instagram_button_log_in" />
 
 </android.support.constraint.ConstraintLayout>
