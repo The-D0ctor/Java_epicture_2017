@@ -1,4 +1,4 @@
-package eu.epitech.sebastienrochelet.epicture
+package eu.epitech.sebastienrochelet.epicture.fragments
 
 
 import android.os.Bundle
@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import eu.epitech.sebastienrochelet.epicture.R
 import eu.epitech.sebastienrochelet.epicture.apiManagment.UserModel
-import io.oauth.OAuthData
 
 
 /**
@@ -32,9 +32,9 @@ class HomeFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        view!!.findViewById<TextView>(R.id.full_name_home).text = user!!.fullName
-        view!!.findViewById<TextView>(R.id.username_home).text = user!!.username
-        Glide.with(this).load(user!!.profilPicture).into(view!!.findViewById(R.id.profile_image_home))
+        view.findViewById<TextView>(R.id.full_name_home).text = user!!.fullName
+        view.findViewById<TextView>(R.id.username_home).text = user!!.username
+        Glide.with(this).load(user!!.profilPicture).into(view.findViewById(R.id.profile_image_home))
         return view
     }
 

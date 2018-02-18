@@ -19,4 +19,5 @@
     <string name="full_name">Full Name</string>
     <string name="username">Username</string>
     <string name="profile_image_home">profile_image_home</string>
+    <string name="image_of_the_media">Image of the media</string>
 </resources>

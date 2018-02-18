@@ -1,10 +1,8 @@
 package eu.epitech.sebastienrochelet.epicture.apiManagment
 
-import android.content.Intent
 import android.os.Parcel
 import android.os.Parcelable
 import org.json.JSONObject
-import java.io.Serializable
 
 /**
  * Created by sebastienrochelet on 11/02/2018.
