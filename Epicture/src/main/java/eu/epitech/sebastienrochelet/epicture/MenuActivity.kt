@@ -1,6 +1,5 @@
 package eu.epitech.sebastienrochelet.epicture
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.TextInputEditText
@@ -19,12 +18,11 @@ import eu.epitech.sebastienrochelet.epicture.apiManagment.UserModel
 import eu.epitech.sebastienrochelet.epicture.apiManagment.ApiManager
 import eu.epitech.sebastienrochelet.epicture.apiManagment.MediaModel
 import eu.epitech.sebastienrochelet.epicture.fragments.*
-import io.oauth.OAuthCallback
 import io.oauth.OAuthData
-import io.oauth.OAuthRequest
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.app_bar_menu.*
 
+//Activity with menu drawer
 class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FeedFragment.OnListFragmentInteractionListener {
     private lateinit var homeFragment: HomeFragment
     private val feedFragment = FeedFragment()
@@ -34,6 +32,7 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var data: OAuthData
     private var user: UserModel? = null
 
+    //On creation of the class, get user with ApiManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
@@ -46,7 +45,6 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         data = intent.getParcelableExtra("data")
         println(data.token)
-        //feedFragment = FeedFragment.newInstance(data)
         ApiManager.getUser(data) {
             user = it
             println(user)
@@ -86,6 +84,8 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    //When "Home" clicked go to the fragment associated
+    //When "Feed" clicked get the feed with ApiManager and go to the fragment associated
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
@@ -94,7 +94,7 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_feed -> {
                 ApiManager.getFeed(data) {
-                    feedFragment.medias = it!!
+                    feedFragment.medias = it
                     replaceFragment(feedFragment)
                 }
             }
@@ -113,6 +113,7 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    //Replace the fragment displayed
     private fun replaceFragment(newFragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
 
@@ -121,21 +122,16 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         transaction.commit()
     }
 
+    //When a media is clicked on the feed fragment open an alert dialog for adding a comment
     override fun onListFragmentInteraction(media: MediaModel) {
         val alert = AlertDialog.Builder(this)
         alert.setMessage("Enter a new comment")
         val view = TextInputEditText(this)
         alert.setView(view)
         alert.setPositiveButton("Add") {dialog, positiveButton ->
-            if (view.text != null) run {
-                var text = ""
-                for (c in view.text) {
-                    text += if (c == ' ')
-                        '+'
-                    else c
-
-                }
-                ("https://api.instagram.com/v1/media/" + media.id + "/comments").httpPost(listOf(Pair("access_token", data.token), Pair("text", view.text))).responseJson{_, _, result ->
+            if (view.text != null) {
+                val url = ("https://api.instagram.com/v1/media/" + media.id + "/comments")
+                url.httpPost(listOf(Pair("access_token", data.token), Pair("text", view.text))).responseJson{_, _, result ->
                     val (data, error) = result
                     if (error != null) {
                         println(error)

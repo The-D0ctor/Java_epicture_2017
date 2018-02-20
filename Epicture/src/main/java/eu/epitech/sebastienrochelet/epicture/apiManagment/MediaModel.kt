@@ -7,6 +7,8 @@ import org.json.JSONObject
 /**
  * Created by sebastienrochelet on 18/02/2018.
  */
+
+//class representing the media
 class MediaModel() : Parcelable {
     var id: String? = null
     var imageUrl: String? = null
