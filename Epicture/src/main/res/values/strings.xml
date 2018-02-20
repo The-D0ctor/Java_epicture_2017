@@ -20,4 +20,5 @@
     <string name="username">Username</string>
     <string name="profile_image_home">profile_image_home</string>
     <string name="image_of_the_media">Image of the media</string>
+    <string name="title_activity_comments">CommentsActivity</string>
 </resources>
