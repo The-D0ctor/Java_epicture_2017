@@ -9,6 +9,7 @@ import org.json.JSONObject
  * Created by sebastienrochelet on 11/02/2018.
  */
 
+//class representing the user
 class UserModel() : Parcelable {
     var id: String? = null
     var username: String? = null

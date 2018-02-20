@@ -14,6 +14,8 @@ import eu.epitech.sebastienrochelet.epicture.R
  * Use the [FiltersFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+//fragment for filters. Not yet implemented
 class FiltersFragment : Fragment() {
 
     // TODO: Rename and change types of parameters

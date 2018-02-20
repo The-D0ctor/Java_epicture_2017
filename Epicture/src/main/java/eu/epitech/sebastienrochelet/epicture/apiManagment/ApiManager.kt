@@ -11,8 +11,10 @@ import org.json.JSONObject
  * Created by sebastienrochelet on 11/02/2018.
  */
 
+//class that manage the calls to api for getting infos
 class ApiManager {
     companion object {
+        //get the user
         fun getUser(data: OAuthData, callback: (user: UserModel) -> Unit) {
             println(data.token)
             data.http("/v1/users/self", object : OAuthRequest() {
@@ -39,6 +41,7 @@ class ApiManager {
             })
         }
 
+        //get the medias associated to this user
         fun getFeed(data: OAuthData, callback: (medias: List<MediaModel>) -> Unit) {
             data.http("/v1/users/self/media/recent", object : OAuthRequest() {
                 override fun onSetURL(url: String?) {

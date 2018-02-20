@@ -8,18 +8,22 @@ import io.oauth.OAuth
 import io.oauth.OAuthCallback
 import io.oauth.OAuthData
 
+//First activity
 class MainActivity : AppCompatActivity(), OAuthCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
 
+    //Click listener for the log-in button
+    //Start oAuth login
     fun signUp(view: View) {
         val oAuth = OAuth(this)
         oAuth.initialize(getString(R.string.public_key))
         oAuth.popup("instagram", this)
     }
 
+    //Called when oAuth login succeeded
     override fun onFinished(data: OAuthData?) {
         if (data != null && data.error == null) {
             println(data.token)

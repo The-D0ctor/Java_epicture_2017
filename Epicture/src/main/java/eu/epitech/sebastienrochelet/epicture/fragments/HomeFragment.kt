@@ -17,6 +17,8 @@ import eu.epitech.sebastienrochelet.epicture.apiManagment.UserModel
  * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+//fragment for the home
 class HomeFragment : Fragment() {
 
     private var user: UserModel? = null

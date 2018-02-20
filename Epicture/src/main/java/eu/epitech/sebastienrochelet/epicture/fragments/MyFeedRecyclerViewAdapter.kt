@@ -16,6 +16,8 @@ import eu.epitech.sebastienrochelet.epicture.fragments.FeedFragment.OnListFragme
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
+
+//adapted for the feed fragment
 class MyFeedRecyclerViewAdapter(private val mValues: List<MediaModel?>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<MyFeedRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

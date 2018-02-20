@@ -24,20 +24,12 @@ import io.oauth.OAuthData
  * Mandatory empty constructor for the fragment manager to instantiate the
  * fragment (e.g. upon screen orientation changes).
  */
+
+//fragment for the feed.
 class FeedFragment : Fragment() {
     private lateinit var data: OAuthData
     private var mListener: OnListFragmentInteractionListener? = null
     var medias: List<MediaModel?> = listOf()
-
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        /*if (arguments != null) {
-            data = arguments!!.getParcelable("data")
-            ApiManager.getFeed(data) {
-                medias = it!!
-            }
-        }*/
-    }*/
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -79,14 +71,4 @@ class FeedFragment : Fragment() {
     interface OnListFragmentInteractionListener {
         fun onListFragmentInteraction(media: MediaModel)
     }
-
-    /*companion object {
-        fun newInstance(data: OAuthData): FeedFragment {
-            val fragment = FeedFragment()
-            val args = Bundle()
-            args.putParcelable("data", data)
-            fragment.arguments = args
-            return fragment
-        }
-    }*/
 }

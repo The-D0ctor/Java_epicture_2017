@@ -14,6 +14,8 @@ import eu.epitech.sebastienrochelet.epicture.R
  * Use the [SearchFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+//fragment for search. Not yet implemented
 class SearchFragment : Fragment() {
 
     // TODO: Rename and change types of parameters

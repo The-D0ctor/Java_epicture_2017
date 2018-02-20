@@ -14,6 +14,7 @@ import eu.epitech.sebastienrochelet.epicture.R
  * Use the [FavoritesFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+//fragment for favorites. Not yet implemented
 class FavoritesFragment : Fragment() {
 
     // TODO: Rename and change types of parameters
