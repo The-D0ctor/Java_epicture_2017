@@ -1,21 +1,27 @@
 package eu.epitech.sebastienrochelet.epicture
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.design.widget.TextInputEditText
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.httpPost
 import eu.epitech.sebastienrochelet.epicture.apiManagment.UserModel
 import eu.epitech.sebastienrochelet.epicture.apiManagment.ApiManager
 import eu.epitech.sebastienrochelet.epicture.apiManagment.MediaModel
 import eu.epitech.sebastienrochelet.epicture.fragments.*
+import io.oauth.OAuthCallback
 import io.oauth.OAuthData
+import io.oauth.OAuthRequest
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.app_bar_menu.*
 
@@ -116,6 +122,31 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onListFragmentInteraction(media: MediaModel) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val alert = AlertDialog.Builder(this)
+        alert.setMessage("Enter a new comment")
+        val view = TextInputEditText(this)
+        alert.setView(view)
+        alert.setPositiveButton("Add") {dialog, positiveButton ->
+            if (view.text != null) run {
+                var text = ""
+                for (c in view.text) {
+                    text += if (c == ' ')
+                        '+'
+                    else c
+
+                }
+                ("https://api.instagram.com/v1/media/" + media.id + "/comments").httpPost(listOf(Pair("access_token", data.token), Pair("text", view.text))).responseJson{_, _, result ->
+                    val (data, error) = result
+                    if (error != null) {
+                        println(error)
+                    }
+                }
+            }
+            dialog.dismiss()
+        }
+        alert.setNegativeButton("Cancel") {dialog, positiveButton ->
+            dialog.dismiss()
+        }
+        alert.show()
     }
 }

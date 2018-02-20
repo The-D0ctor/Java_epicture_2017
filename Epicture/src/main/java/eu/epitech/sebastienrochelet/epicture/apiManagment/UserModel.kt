@@ -2,6 +2,7 @@ package eu.epitech.sebastienrochelet.epicture.apiManagment
 
 import android.os.Parcel
 import android.os.Parcelable
+import org.json.JSONException
 import org.json.JSONObject
 
 /**
@@ -36,12 +37,18 @@ class UserModel() : Parcelable {
         username = json["username"].toString()
         profilPicture = json["profile_picture"].toString()
         fullName = json["full_name"].toString()
-        bio = json["bio"].toString()
-        website = json["website"].toString()
-        val counts = json["counts"] as JSONObject
-        media = counts["media"].toString()
-        follows = counts["follows"].toString()
-        followedBy = counts["followed_by"].toString()
+        try { bio = json["bio"].toString() }
+        catch (e:JSONException) {}
+        try { website = json["website"].toString() }
+        catch (e:JSONException) {}
+        var counts: JSONObject? = null
+        try {counts = json["counts"] as JSONObject}
+        catch (e: JSONException) {}
+        if (counts != null) {
+            media = counts["media"].toString()
+            follows = counts["follows"].toString()
+            followedBy = counts["followed_by"].toString()
+        }
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
