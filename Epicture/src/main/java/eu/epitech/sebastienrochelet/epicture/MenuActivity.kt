@@ -6,19 +6,22 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import eu.epitech.sebastienrochelet.epicture.apiManagment.UserModel
 import eu.epitech.sebastienrochelet.epicture.apiManagment.ApiManager
+import eu.epitech.sebastienrochelet.epicture.apiManagment.MediaModel
+import eu.epitech.sebastienrochelet.epicture.fragments.*
 import io.oauth.OAuthData
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.app_bar_menu.*
 
-class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FeedFragment.OnListFragmentInteractionListener {
     private lateinit var homeFragment: HomeFragment
-    private var lastPostFragment = LastPostFragment()
+    private val feedFragment = FeedFragment()
     private val searchFragment = SearchFragment()
     private val favoritesFragment = FavoritesFragment()
     private val filtersFragment = FiltersFragment()
@@ -37,8 +40,9 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         data = intent.getParcelableExtra("data")
         println(data.token)
-        ApiManager.getUser(data, {
-            this.user = it
+        //feedFragment = FeedFragment.newInstance(data)
+        ApiManager.getUser(data) {
+            user = it
             println(user)
             if (user != null) {
                 val header = nav_view.getHeaderView(0)
@@ -48,7 +52,7 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 homeFragment = HomeFragment.newInstance(user!!)
                 supportFragmentManager.beginTransaction().add(R.id.fragment_container, homeFragment).commit()
             }
-        })
+        }
 
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_home)
@@ -83,7 +87,10 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 replaceFragment(homeFragment)
             }
             R.id.nav_feed -> {
-                replaceFragment(lastPostFragment)
+                ApiManager.getFeed(data) {
+                    feedFragment.medias = it!!
+                    replaceFragment(feedFragment)
+                }
             }
             R.id.nav_search -> {
                 replaceFragment(searchFragment)
@@ -106,5 +113,9 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         transaction.replace(R.id.fragment_container, newFragment)
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+    override fun onListFragmentInteraction(media: MediaModel) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

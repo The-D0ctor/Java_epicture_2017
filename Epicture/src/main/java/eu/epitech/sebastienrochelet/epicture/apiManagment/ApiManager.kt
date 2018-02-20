@@ -4,6 +4,7 @@ import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import io.oauth.OAuthData
 import io.oauth.OAuthRequest
+import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -12,7 +13,7 @@ import org.json.JSONObject
 
 class ApiManager {
     companion object {
-        fun getUser(data: OAuthData, callback: (user: UserModel?) -> Unit) {
+        fun getUser(data: OAuthData, callback: (user: UserModel) -> Unit) {
             println(data.token)
             data.http("/v1/users/self", object : OAuthRequest() {
                 override fun onSetURL(url: String?) {
@@ -26,11 +27,35 @@ class ApiManager {
                             callback(user)
                         } else {
                             println(error)
-                            callback(null)
+                            callback(UserModel())
                         }
                     }
                 }
 
+                override fun onSetHeader(header: String?, value: String?) {}
+                override fun onError(message: String?) {
+                    println(message)
+                }
+            })
+        }
+
+        fun getFeed(data: OAuthData, callback: (medias: List<MediaModel>) -> Unit) {
+            data.http("/v1/users/self/media/recent", object : OAuthRequest() {
+                override fun onSetURL(url: String?) {
+                    url!!.httpGet().responseJson { _, _, result ->
+                        val (data , error) = result
+                        val medias: MutableList<MediaModel> = mutableListOf()
+                        if (error == null) {
+                            val jsonArray = data!!.obj()["data"] as JSONArray
+                            (0 until jsonArray.length()).mapTo(medias) { MediaModel(jsonArray[it] as JSONObject) }
+                            callback(medias)
+                        }
+                        else {
+                            println(error)
+                            callback(listOf())
+                        }
+                    }
+                }
                 override fun onSetHeader(header: String?, value: String?) {}
                 override fun onError(message: String?) {
                     println(message)
